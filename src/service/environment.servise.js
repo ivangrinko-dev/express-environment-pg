@@ -1,8 +1,14 @@
-const { getAllEnvironmentDb } = require(`../repository/environment.repositpry`);
+const {getAllEnvironmentDb, getAllEnvironmentByIdDb} = require(`../repository/environment.repositpry`)
 
-async function getAllEnvironment () {
+async function getAllEnvironment() {
   const data = await getAllEnvironmentDb();
-  return data;
+  return data
 }
 
-module.exports = { getAllEnvironment };
+async function getAllEnvironmentById(id) {
+  const data = await getAllEnvironmentByIdDb(id);
+  return data
+}
+
+
+module.exports = {getAllEnvironment, getAllEnvironmentById}
