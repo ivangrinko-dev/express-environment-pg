@@ -1,14 +1,45 @@
-const {getAllEnvironmentDb, getAllEnvironmentByIdDb} = require(`../repository/environment.repositpry`)
+const {
+  getAllEnvironmentDb,
+  getAllEnvironmentByIdDb,
+  createEnvironmentDb,
+  updateEnvironmentByIdDb,
+  deleteEnvironmentByIdDb,
+} = require(`../repository/environment.repositpry`);
 
 async function getAllEnvironment() {
   const data = await getAllEnvironmentDb();
-  return data
+  return data;
 }
+
+// async function getAllEnvironmentById(id) {
+//   const data = await getAllEnvironmentByIdDb();
+//   const filtered = data.filter((elem) => elem.id == id)
+//   return filtered;
+// }
 
 async function getAllEnvironmentById(id) {
   const data = await getAllEnvironmentByIdDb(id);
-  return data
+  return data;
 }
 
+async function createEnvironment(label, category, priority) {
+  const data = await createEnvironmentDb(label, category, priority);
+  return data;
+}
 
-module.exports = {getAllEnvironment, getAllEnvironmentById}
+async function updateEnvironmentById(id, label, category, priority) {
+  const data = await updateEnvironmentByIdDb(id, label, category, priority);
+  return data;
+}
+async function deleteEnvironmentById(id) {
+  const data = await deleteEnvironmentByIdDb(id);
+  return data;
+}
+
+module.exports = {
+  getAllEnvironment,
+  getAllEnvironmentById,
+  createEnvironment,
+  updateEnvironmentById,
+  deleteEnvironmentById,
+};
