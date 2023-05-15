@@ -14,9 +14,15 @@ route.get(`/`, async (req, res) => {
 });
 
 route.get(`/:id`, async (req, res) => {
-  const { id } = req.params;
-  const data = await getAllEnvironmentById(id);
-  res.send(data);
+  try {
+    const { id } = req.params;
+    if(id = 0) throw new Error(`error`)
+    const data = await getAllEnvironmentById(id);
+    res.send(data);
+    
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 route.post(`/`, async (req, res) => {
@@ -26,10 +32,16 @@ route.post(`/`, async (req, res) => {
 });
 
 route.put(`/:id`, async (req, res) => {
-  const { id } = req.params;
-  const { label, category, priority } = req.body;
-  const dada = await updateEnvironmentById(id, label, category, priority);
-  res.send(dada);
+  try {
+    const { id } = req.params;
+    const { label, category, priority } = req.body;
+    const dada = await updateEnvironmentById(id, label, category, priority);
+    res.send(dada);
+    
+  } catch (error) {
+    res.send(error.message);
+    
+  }
 });
 
 route.delete(`/:id`, async (req, res) => {
