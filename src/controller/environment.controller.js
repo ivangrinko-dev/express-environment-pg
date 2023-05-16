@@ -16,7 +16,6 @@ route.get(`/`, async (req, res) => {
 route.get(`/:id`, async (req, res) => {
   try {
     const { id } = req.params;
-    if(id = 0) throw new Error(`error`)
     const data = await getAllEnvironmentById(id);
     res.send(data);
     
@@ -26,9 +25,14 @@ route.get(`/:id`, async (req, res) => {
 });
 
 route.post(`/`, async (req, res) => {
-  const { label, category, priority } = req.body;
-  const data = await createEnvironment(label, category, priority);
-  res.send(data);
+  try {
+    const { label, category, priority } = req.body;
+    const data = await createEnvironment(label, category, priority);
+    res.send(data);
+    
+  } catch (error) {
+     res.send(error.message);
+  }
 });
 
 route.put(`/:id`, async (req, res) => {

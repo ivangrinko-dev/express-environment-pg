@@ -18,6 +18,7 @@ async function getAllEnvironment() {
 // }
 
 async function getAllEnvironmentById(id) {
+  if(id == 0) throw new Error(`id не должен ровняться нолю`)
   const data = await getAllEnvironmentByIdDb(id);
   return data;
 }
