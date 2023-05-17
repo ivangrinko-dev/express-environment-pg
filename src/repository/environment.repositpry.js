@@ -31,8 +31,7 @@ async function createEnvironmentDb(label, category, priority) {
 async function updateEnvironmentByIdDb(id, label, category, priority) {
   const client = await pool.connect();
   const sql = `UPDATE environment set label = $1, category = $2, priority = $3 where id = $4 RETURNING * `;
-  const result = (await client.query(sql, [label, category, priority, id]))
-    .rows;
+  const result = (await client.query(sql, [label, category, priority, id])).rows;
   return result;
 }
 

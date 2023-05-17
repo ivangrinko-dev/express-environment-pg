@@ -1,4 +1,6 @@
 const express = require(`express`);
+const { isValidEnvironmentId, isValidEnvironmentBody } = require(`../helper/validation`);
+const { bildResponse } = require(`../helper/bildresponse`);
 const {
   getAllEnvironment,
   getAllEnvironmentById,
@@ -9,49 +11,53 @@ const {
 const route = express.Router();
 
 route.get(`/`, async (req, res) => {
-  const data = await getAllEnvironment();
-  res.send(data);
+  try {
+    const data = await getAllEnvironment();
+    bildResponse(res, 200, data);
+  } catch (error) {
+    bildResponse(res, 404, error.message);
+  }
 });
 
-route.get(`/:id`, async (req, res) => {
+route.get(`/:id`, isValidEnvironmentId, async (req, res) => {
   try {
     const { id } = req.params;
     const data = await getAllEnvironmentById(id);
-    res.send(data);
-    
+    bildResponse(res, 200, data);
   } catch (error) {
-    res.send(error.message);
+    bildResponse(res, 404, error.message);
   }
 });
 
-route.post(`/`, async (req, res) => {
+route.post(`/`, isValidEnvironmentBody, async (req, res) => {
   try {
     const { label, category, priority } = req.body;
     const data = await createEnvironment(label, category, priority);
-    res.send(data);
-    
+    bildResponse(res, 200, data);
   } catch (error) {
-     res.send(error.message);
+    bildResponse(res, 404, error.message);
   }
 });
 
-route.put(`/:id`, async (req, res) => {
+route.put(`/:id`, isValidEnvironmentId, isValidEnvironmentBody, async (req, res) => {
   try {
     const { id } = req.params;
     const { label, category, priority } = req.body;
-    const dada = await updateEnvironmentById(id, label, category, priority);
-    res.send(dada);
-    
+    const data = await updateEnvironmentById(id, label, category, priority);
+    bildResponse(res, 200, data);
   } catch (error) {
-    res.send(error.message);
-    
+    bildResponse(res, 404, error.message);
   }
 });
 
-route.delete(`/:id`, async (req, res) => {
-  const { id } = req.params;
-  const dada = await deleteEnvironmentById(id);
-  res.send(dada);
+route.delete(`/:id`, isValidEnvironmentId, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await deleteEnvironmentById(id);
+    bildResponse(res, 200, data);
+  } catch (error) {
+    bildResponse(res, 404, error.message);
+  }
 });
 
 module.exports = route;
